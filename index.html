@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Minecraft Server Status</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Minecraft Server Status</h1>
+  </header>
+
+  <main>
+    <section>
+      <h2>Enter your server IP:</h2>
+      <form id="serverForm">
+        <input type="text" id="serverIP" placeholder="Server IP address" required>
+        <button type="submit">Check Status</button>
+      </form>
+    </section>
+
+    <section id="resultSection" class="hidden">
+      <h2>Server Status:</h2>
+      <p id="statusText"></p>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
