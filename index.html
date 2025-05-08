@@ -1,0 +1,1343 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --color-github: #f0f0f0;
+            --color-linkedin: #0A66C2;
+            --color-youtube: #FF0000;
+            --color-telegram: #0088CC;
+            --color-instagram: #E4405F;
+            --color-discord: #7289DA;
+            --color-whatsapp: #25D366;
+            --color-email: #00BFFF;
+            --color-gold: #FFD700;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #121212;
+            color: #f0f0f0;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* === Custom Scrollbar Styles START === */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            border: 3px solid transparent;
+            background-clip: content-box;
+            transition: background-color 0.3s ease;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(0, 191, 255, 0.5);
+        }
+        /* === Custom Scrollbar Styles END === */
+
+        #top-status-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #f0f0f0;
+            z-index: 1000;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 5vw;
+            font-size: 0.9rem;
+            font-weight: 400;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        #top-status-bar i {
+            margin-right: 5px;
+            color: #00BFFF;
+        }
+
+        #progress-bar-container {
+            position: fixed;
+            top: 40px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            z-index: 10000;
+            transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+        }
+
+        #progress-bar {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #4A00E0, #00BFFF, #E01E5A);
+            border-radius: 0 2px 2px 0;
+            transition: width 2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        #progress-bar-container.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #121212;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+        }
+
+        #loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-animation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .letters {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            font-size: 7rem;
+            font-weight: 100;
+        }
+
+        .letters span {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            animation: sequentialReplace 0.6s infinite;
+            text-transform: lowercase;
+        }
+
+        .letters span:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .letters span:nth-child(2) {
+            animation-delay: 0.15s;
+        }
+
+        .letters span:nth-child(3) {
+            animation-delay: 0.30s;
+        }
+
+        .letters span:nth-child(4) {
+            animation-delay: 0.45s;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite ease-in-out;
+            animation-delay: 0.5s;
+        }
+
+        .glow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .glow-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.7;
+            animation: moveAndChange 20s infinite alternate;
+        }
+
+        .glow-blob:nth-child(1) {
+            width: 500px;
+            height: 500px;
+            background-color: #4A00E0;
+            top: -10%;
+            left: -10%;
+            animation-duration: 25s;
+        }
+
+        .glow-blob:nth-child(2) {
+            width: 450px;
+            height: 450px;
+            background-color: #00BFFF;
+            bottom: -15%;
+            right: -5%;
+            animation-duration: 20s;
+            animation-delay: -10s;
+        }
+
+        .glow-blob:nth-child(3) {
+            width: 400px;
+            height: 400px;
+            background-color: #E01E5A;
+            bottom: 20%;
+            left: 40%;
+            animation-duration: 30s;
+            animation-delay: -5s;
+        }
+
+        @keyframes sequentialReplace {
+
+            0%,
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) scale(0.95);
+            }
+
+            15% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1);
+            }
+
+            30% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1);
+            }
+
+            45% {
+                opacity: 0;
+                transform: translateX(-50%) scale(0.95);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.3);
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes moveAndChange {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate(60px, -40px) scale(1.2);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translate(-30px, 50px) scale(0.9);
+            }
+        }
+
+        #main-content {
+            display: none;
+            padding: 5vh 5vw;
+            padding-top: calc(5vh + 40px);
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+        }
+
+        .current-status-bar {
+            margin-bottom: 0px;
+            display: block;
+            padding: 15px 30px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background 0.3s ease;
+        }
+
+        .current-status-bar:hover {
+            background: rgba(0, 191, 255, 0.1);
+        }
+
+        .current-status-bar a {
+            color: #f0f0f0;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .freezehost-logo {
+            height: 40px;
+            width: auto;
+            margin-right: 15px;
+        }
+
+
+        #current-status .section-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .active-dot-title {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #25D366;
+            box-shadow: 0 0 10px #25D366;
+            flex-shrink: 0;
+        }
+
+        .profile-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37),
+                inset 0px 1px 1px 0px rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease-out;
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: -1;
+            margin: -2px;
+            border-radius: inherit;
+            background: linear-gradient(120deg,
+                    rgba(0, 191, 255, 0.5),
+                    rgba(224, 30, 90, 0.6),
+                    rgba(74, 0, 224, 0.5),
+                    rgba(0, 191, 255, 0.5));
+            background-size: 400% 400%;
+            filter: blur(45px);
+            opacity: 0.9;
+            animation: animate-glow 15s ease infinite;
+        }
+
+        @keyframes animate-glow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px) scale(1.01);
+        }
+
+        .banner {
+            height: 120px;
+        }
+
+        .profile-header {
+            position: relative;
+            padding: 0 25px;
+        }
+
+        .avatar-container {
+            position: absolute;
+            top: -60px;
+            left: 25px;
+            z-index: 10;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.25);
+            object-fit: cover;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .profile-body {
+            position: relative;
+            z-index: 5;
+            padding: 70px 30px 30px;
+        }
+
+        .user-info h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #f5f5f5;
+            margin: 0;
+        }
+
+        .user-info .tagline {
+            font-size: 1.1rem;
+            color: #bdbdbd;
+            font-weight: 400;
+        }
+
+        .profile-section {
+            padding: 25px 0;
+            margin-top: 25px;
+        }
+
+        .profile-section+.profile-section {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-section h2 {
+            font-size: 0.9rem;
+            color: #b0b0b0;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .about-me-text {
+            color: #e0e0e0;
+            line-height: 1.7;
+        }
+
+        #left-social-section {
+            transition: opacity 0.4s ease-out, visibility 0.4s ease-out;
+        }
+
+        #left-social-section.fade-out {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .social-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .social-links a {
+            color: #b9bbbe;
+            font-size: 30px;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .social-links a:hover {
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        .social-links a[title="Discord"]:hover {
+            color: var(--color-discord);
+        }
+
+        .social-links a[title="GitHub"]:hover {
+            color: var(--color-github);
+        }
+
+        .social-links a[title="Instagram"]:hover {
+            color: var(--color-instagram);
+        }
+
+        .social-links a[title="LinkedIn"]:hover {
+            color: var(--color-linkedin);
+        }
+
+        .social-links a[title="Telegram"]:hover {
+            color: var(--color-telegram);
+        }
+
+        .social-links a[title="WhatsApp"]:hover {
+            color: var(--color-whatsapp);
+        }
+
+        .social-links a[title="YouTube"]:hover {
+            color: var(--color-youtube);
+        }
+
+        .page-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 40px;
+            width: 100%;
+        }
+
+        .left-column {
+            flex: 0 0 480px;
+            position: sticky;
+            top: calc(5vh + 40px);
+        }
+
+        .right-column {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* === Scroll Progress Bar Styles === */
+        .left-column-wrapper {
+            position: relative;
+            padding-left: 60px;
+        }
+
+        #scroll-progress-container {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 40px;
+            display: flex;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-line-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            background: var(--color-gold);
+            box-shadow: 0 0 5px var(--color-gold);
+            transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .progress-dot {
+            position: absolute;
+            left: 50%;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #121212;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transform: translateX(-50%);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .progress-dot.active {
+            background-color: var(--color-gold);
+            border-color: var(--color-gold);
+            box-shadow: 0 0 15px var(--color-gold);
+            transform: translateX(-50%) scale(1.2);
+        }
+
+        .content-section {
+            padding-bottom: 70px;
+            min-height: 400px;
+            /* Helps ensure sections can be properly observed */
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: #f0f0f0;
+            text-shadow: 0 0 5px rgba(0, 191, 255, 0.5), 0 0 10px rgba(74, 0, 224, 0.3);
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .content-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #00BFFF;
+        }
+
+        .project-card p {
+            font-size: 0.95rem;
+            color: #bdbdbd;
+            margin-bottom: 15px;
+            min-height: 55px;
+        }
+
+        .project-links a {
+            color: #E01E5A;
+            margin-right: 15px;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .project-links a:hover {
+            color: #f0f0f0;
+        }
+
+        .skill-group h3 {
+            font-size: 1.2rem;
+            color: #f0f0f0;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 5px;
+        }
+
+        .skill-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-badge {
+            padding: 8px 15px;
+            background: rgba(0, 191, 255, 0.15);
+            border: 1px solid rgba(0, 191, 255, 0.4);
+            border-radius: 5px;
+            font-size: 0.9rem;
+            color: #00BFFF;
+            font-weight: 600;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .skill-badge i {
+            margin-right: 5px;
+            color: #f0f0f0;
+        }
+
+        .skill-badge:hover {
+            background: rgba(0, 191, 255, 0.3);
+            box-shadow: 0 0 10px rgba(0, 191, 255, 0.6);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-left: 2px solid rgba(255, 255, 255, 0.2);
+            padding-left: 30px;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 0;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background-color: #E01E5A;
+            border: 3px solid #121212;
+            box-shadow: 0 0 10px rgba(224, 30, 90, 0.7);
+        }
+
+        .timeline-item h4 {
+            font-size: 1.3rem;
+            color: #f0f0f0;
+            margin-bottom: 5px;
+        }
+
+        .timeline-item p {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+        }
+
+        /* Contact Button Styles */
+        #bottom-contact-container {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out, visibility 0.4s;
+        }
+
+        #bottom-contact-container.is-visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .contact-badge-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .contact-badge {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 12px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            text-decoration: none;
+            color: #f0f0f0;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+            max-width: 200px;
+            flex-grow: 0;
+            flex-shrink: 0;
+        }
+
+        .contact-badge i {
+            font-size: 1.4rem;
+            margin-right: 12px;
+            color: #bdbdbd;
+            transition: color 0.3s ease;
+        }
+
+        .contact-badge span {
+            font-weight: 600;
+        }
+
+        .contact-badge:hover {
+            transform: translateY(-3px) scale(1.02);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .contact-badge.email-badge {
+            font-size: 1.2rem;
+            padding: 15px 25px;
+            background: rgba(0, 191, 255, 0.08);
+            border: 2px solid var(--color-email);
+            color: var(--color-email);
+            font-weight: 700;
+            justify-content: center;
+            width: 100%;
+            max-width: none;
+            flex-basis: 100%;
+            box-shadow: 0 0 5px rgba(0, 191, 255, 0.5);
+            transform: none;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .contact-badge.email-badge i {
+            color: var(--color-email);
+        }
+
+        .contact-badge.email-badge:hover {
+            box-shadow: 0 0 15px var(--color-email);
+            background: rgba(0, 191, 255, 0.15);
+            color: #f0f0f0;
+        }
+
+        .contact-badge.email-badge:hover i {
+            color: #f0f0f0;
+        }
+
+
+        .contact-badge[title="GitHub"]:hover {
+            box-shadow: 0 0 5px var(--color-github);
+            border-color: var(--color-github);
+        }
+
+        .contact-badge[title="GitHub"]:hover i {
+            color: var(--color-github);
+        }
+
+        .contact-badge[title="LinkedIn"]:hover {
+            box-shadow: 0 0 5px var(--color-linkedin);
+            border-color: var(--color-linkedin);
+        }
+
+        .contact-badge[title="LinkedIn"]:hover i {
+            color: var(--color-linkedin);
+        }
+
+        .contact-badge[title="YouTube"]:hover {
+            box-shadow: 0 0 5px var(--color-youtube);
+            border-color: var(--color-youtube);
+        }
+
+        .contact-badge[title="YouTube"]:hover i {
+            color: var(--color-youtube);
+        }
+
+        .contact-badge[title="Telegram"]:hover {
+            box-shadow: 0 0 5px var(--color-telegram);
+            border-color: var(--color-telegram);
+        }
+
+        .contact-badge[title="Telegram"]:hover i {
+            color: var(--color-telegram);
+        }
+
+        .contact-badge[title="Instagram"]:hover {
+            box-shadow: 0 0 5px var(--color-instagram);
+            border-color: var(--color-instagram);
+        }
+
+        .contact-badge[title="Instagram"]:hover i {
+            color: var(--color-instagram);
+        }
+
+        .contact-badge[title="WhatsApp"]:hover {
+            box-shadow: 0 0 5px var(--color-whatsapp);
+            border-color: var(--color-whatsapp);
+        }
+
+        .contact-badge[title="WhatsApp"]:hover i {
+            color: var(--color-whatsapp);
+        }
+
+        .contact-badge[title="Discord"]:hover {
+            box-shadow: 0 0 5px var(--color-discord);
+            border-color: var(--color-discord);
+        }
+
+        .contact-badge[title="Discord"]:hover i {
+            color: var(--color-discord);
+        }
+
+        @media (max-width: 992px) {
+            .page-container {
+                flex-direction: column;
+                gap: 50px;
+            }
+
+            .left-column {
+                position: static;
+                flex-basis: auto;
+                width: 100%;
+                max-width: 550px;
+                margin: 0 auto;
+            }
+
+            .left-column-wrapper {
+                padding-left: 0;
+            }
+
+            #scroll-progress-container {
+                display: none;
+            }
+
+            .section-title {
+                font-size: 2rem;
+                margin-top: 30px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .contact-badge {
+                max-width: 100%;
+                flex-grow: 1;
+            }
+
+            #main-content {
+                padding-top: calc(10vh + 40px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .avatar {
+                width: 90px;
+                height: 90px;
+            }
+
+            .avatar-container {
+                top: -45px;
+            }
+
+            .profile-body {
+                padding: 55px 25px 25px;
+            }
+
+            .user-info h1 {
+                font-size: 1.6rem;
+            }
+
+            #top-status-bar {
+                padding: 0 20px;
+            }
+
+            .current-status-bar a {
+                font-size: 1.2rem;
+            }
+
+            .freezehost-logo {
+                height: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="top-status-bar">
+        <div class="status-content">
+            <i class="fa-solid fa-location-dot"></i> Iran &nbsp;&nbsp;&nbsp;
+            <i class="fa-solid fa-clock"></i> <span id="local-time">--:--:--</span>
+        </div>
+    </div>
+
+    <div id="progress-bar-container">
+        <div id="progress-bar"></div>
+    </div>
+
+    <div class="glow-container">
+        <div class="glow-blob"></div>
+        <div class="glow-blob"></div>
+        <div class="glow-blob"></div>
+    </div>
+
+    <div id="loading-screen">
+        <div class="loading-animation">
+            <div class="letters">
+                <span>m</span>
+                <span>o</span>
+                <span>R</span>
+                <span>e</span>
+            </div>
+            <div class="dot"></div>
+        </div>
+    </div>
+
+    <main id="main-content">
+        <div class="page-container">
+
+            <div class="left-column">
+                <div class="left-column-wrapper">
+
+                    <div id="scroll-progress-container">
+                        <div class="progress-line">
+                            <div class="progress-line-fill"></div>
+                        </div>
+                        <!-- CHANGE: Dots reduced from 5 to 4 -->
+                        <div class="progress-dot" data-section-id="work"></div>
+                        <div class="progress-dot" data-section-id="skills"></div>
+                        <div class="progress-dot" data-section-id="experience"></div>
+                        <div class="progress-dot" data-section-id="contact"></div>
+                    </div>
+
+                    <div class="profile-card">
+                        <div class="banner"></div>
+                        <div class="profile-header">
+                            <div class="avatar-container">
+                                <img src="https://freezehost.pro/assets/pfp/moreweb.jpeg" alt="Your Name"
+                                    class="avatar">
+                            </div>
+                        </div>
+                        <div class="profile-body">
+                            <div class="user-info">
+                                <h1>moreweb</h1>
+                                <p class="tagline">Software Developer</p>
+                            </div>
+                            <div class="profile-section">
+                                <h2>About Me</h2>
+                                <p class="about-me-text">
+                                    Software Developer with a passion for creating intuitive, dynamic user experiences.
+                                    Specializing in Python & Web Design, I love solving complex problems and turning ideas into reality.
+                                    Currently exploring cloud infrastructure and AI.
+                                </p>
+                            </div>
+                            <div id="left-social-section" class="profile-section">
+                                <h2>Connect With Me</h2>
+                                <div class="social-links">
+                                    <a href="https://github.com/iwebbio" title="GitHub" target="_blank"><i
+                                            class="fa-brands fa-github"></i></a>
+                                    <a href="https://www.linkedin.com/in/iwebbio" title="LinkedIn" target="_blank"><i
+                                            class="fa-brands fa-linkedin"></i></a>
+                                    <a href="https://youtube.com/@iwebbio" title="YouTube" target="_blank"><i
+                                            class="fa-brands fa-youtube"></i></a>
+                                    <a href="https://t.me/iwebbio" title="Telegram" target="_blank"><i
+                                            class="fa-brands fa-telegram"></i></a>
+                                    <a href="https://instagram.com/iwebbio_dev" title="Instagram" target="_blank"><i
+                                            class="fa-brands fa-instagram"></i></a>
+                                    <a href="https://discord.com/users/moreweb" title="Discord" target="_blank"><i
+                                            class="fa-brands fa-discord"></i></a>
+                                    <a href="https://wa.me/15413715751" title="WhatsApp" target="_blank"><i
+                                            class="fa-brands fa-whatsapp"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-column">
+
+                <!-- CHANGE: New parent section wrapper for the first two content blocks -->
+                <section id="work" class="content-section">
+
+                    <!-- The old section is now a div without the .content-section class -->
+                    <div id="current-status">
+                        <h2 class="section-title">
+                            <span class="active-dot-title"></span>
+                            Active Status
+                        </h2>
+                        <div class="current-status-bar">
+                            <a href="https://freezehost.pro" target="_blank">
+                                <img src="https://freezehost.pro/assets/images/fhlogonewnotext.png"
+                                    alt="FreezeHost Logo" class="freezehost-logo">
+                                Developer at FreezeHost.pro
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- This old section is also now a div without the .content-section class -->
+                    <div id="projects" style="margin-top: 70px;">
+                        <h2 class="section-title">Featured Projects</h2>
+                        <div class="project-grid">
+                            <div class="content-card project-card">
+                                <h3>Obsidian Decentralized</h3>
+                                <p>The ultimate plugin for syncing Obsidian notes across your local network without a
+                                    central server, using peer-to-peer technologies (WebRTC via PeerJS).</p>
+                                <div class="skill-badges">
+                                    <span class="skill-badge"><i class="fa-brands fa-js"></i> TypeScript</span>
+                                    <span class="skill-badge"><i class="fa-brands fa-markdown"></i> Obsidian</span>
+                                </div>
+                                <div class="project-links" style="margin-top: 20px;">
+                                    <a href="https://github.com/iwebbio/obsidian-decentralized" target="_blank"
+                                        aria-label="View the Obsidian Decentralized project on GitHub"><i
+                                            class="fa-solid fa-code"></i> View on GitHub</a>
+                                </div>
+                            </div>
+                            <div class="content-card project-card">
+                                <h3>AUTORAY</h3>
+                                <p>A Python program that connects to the Telegram API to scrape V2ray configurations and
+                                    pack them into a subscription link.</p>
+                                <div class="skill-badges">
+                                    <span class="skill-badge"><i class="fa-brands fa-python"></i> Python</span>
+                                    <span class="skill-badge"><i class="fa-brands fa-telegram"></i> Telegram API</span>
+                                </div>
+                                <div class="project-links" style="margin-top: 20px;">
+                                    <a href="https://github.com/iwebbio/AUTORAY" target="_blank"
+                                        aria-label="View the AUTORAY project on GitHub"><i class="fa-solid fa-code"></i>
+                                        View on GitHub</a>
+                                </div>
+                            </div>
+                            <div class="content-card project-card">
+                                <h3>KNOTT</h3>
+                                <p>A feature-rich Discord leveling bot with achievements, rank roles, and a
+                                    comprehensive leveling system to engage server communities.</p>
+                                <div class="skill-badges">
+                                    <span class="skill-badge"><i class="fa-brands fa-python"></i> Python</span>
+                                    <span class="skill-badge"><i class="fa-brands fa-discord"></i> Discord.py</span>
+                                </div>
+                                <div class="project-links" style="margin-top: 20px;">
+                                    <a href="https://github.com/iwebbio/KNOTT" target="_blank"
+                                        aria-label="View the KNOTT project on GitHub"><i class="fa-solid fa-code"></i>
+                                        View on GitHub</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section> <!-- End of the new #work wrapper -->
+
+                <section id="skills" class="content-section">
+                    <h2 class="section-title">Technical Toolkit</h2>
+                    <div class="content-card">
+                        <div class="skill-group" style="margin-bottom: 30px;">
+                            <h3>Languages & Markup</h3>
+                            <div class="skill-badges">
+                                <span class="skill-badge"><i class="fa-brands fa-python"></i> Python</span>
+                                <span class="skill-badge"><i class="fa-brands fa-php"></i> PHP</span>
+                                <span class="skill-badge"><i class="fa-brands fa-html5"></i> HTML</span>
+                                <span class="skill-badge"><i class="fa-brands fa-css3-alt"></i> CSS</span>
+                                <span class="skill-badge"><i class="fa-brands fa-js"></i> JavaScript</span>
+                            </div>
+                        </div>
+                        <div class="skill-group" style="margin-bottom: 30px;">
+                            <h3>Frameworks & Libraries</h3>
+                            <div class="skill-badges">
+                                <span class="skill-badge"><i class="fa-solid fa-flask"></i> Flask</span>
+                                <span class="skill-badge"><i class="fa-brands fa-django"></i> Django</span>
+                                <span class="skill-badge"><i class="fa-solid fa-bolt"></i> FastAPI</span>
+                                <span class="skill-badge"><i class="fa-solid fa-wind"></i> Tailwind CSS</span>
+                                <span class="skill-badge"><i class="fa-brands fa-bootstrap"></i> Bootstrap</span>
+                            </div>
+                        </div>
+                        <div class="skill-group">
+                            <h3>Databases & APIs</h3>
+                            <div class="skill-badges">
+                                <span class="skill-badge"><i class="fa-solid fa-database"></i> SQL</span>
+                                <span class="skill-badge"><i class="fa-solid fa-server"></i> REST APIs</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="experience" class="content-section">
+                    <h2 class="section-title">Career Timeline</h2>
+                    <div class="timeline content-card" style="padding: 40px 30px 10px 30px;">
+                        <div class="timeline-item">
+                            <h4>Developer | FreezeHost.pro</h4>
+                            <p style="margin-bottom: 10px;">February 2022 - Present</p>
+                            <ul style="color: #e0e0e0; font-size: 0.95rem; line-height: 1.5; padding-left: 20px;">
+                                <li>Contributing to the development and maintenance of web hosting solutions and
+                                    infrastructure.</li>
+                                <li>Working with a modern tech stack to build reliable and performant services for
+                                    users.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="contact" class="content-section">
+                    <h2 class="section-title">Get In Touch</h2>
+                    <div id="bottom-contact-container" class="content-card">
+                        <div class="contact-badge-grid">
+                            <a href="mailto:amirhosein.shk.1388@gmail.com" class="contact-badge email-badge">
+                                <i class="fa-solid fa-envelope"></i>
+                                <span>Send an Email</span>
+                            </a>
+                            <a href="https://github.com/iwebbio" title="GitHub" target="_blank" class="contact-badge">
+                                <i class="fa-brands fa-github"></i>
+                                <span>GitHub</span>
+                            </a>
+                            <a href="https://www.linkedin.com/in/iwebbio" title="LinkedIn" target="_blank"
+                                class="contact-badge">
+                                <i class="fa-brands fa-linkedin"></i>
+                                <span>LinkedIn</span>
+                            </a>
+                            <a href="https://youtube.com/@iwebbio" title="YouTube" target="_blank"
+                                class="contact-badge">
+                                <i class="fa-brands fa-youtube"></i>
+                                <span>YouTube</span>
+                            </a>
+                            <a href="https://t.me/iwebbio" title="Telegram" target="_blank" class="contact-badge">
+                                <i class="fa-brands fa-telegram"></i>
+                                <span>Telegram</span>
+                            </a>
+                            <a href="https://instagram.com/iwebbio_dev" title="Instagram" target="_blank"
+                                class="contact-badge">
+                                <i class="fa-brands fa-instagram"></i>
+                                <span>Instagram</span>
+                            </a>
+                            <a href="https://discord.com/users/moreweb" title="Discord" target="_blank"
+                                class="contact-badge">
+                                <i class="fa-brands fa-discord"></i>
+                                <span>Discord</span>
+                            </a>
+                            <a href="https://wa.me/15413715751" title="WhatsApp" target="_blank" class="contact-badge">
+                                <i class="fa-brands fa-whatsapp"></i>
+                                <span>WhatsApp</span>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- LOADER AND CLOCK LOGIC ---
+            const loadingScreen = document.getElementById('loading-screen');
+            const mainContent = document.getElementById('main-content');
+            const progressBarContainer = document.getElementById('progress-bar-container');
+            const progressBar = document.getElementById('progress-bar');
+
+            setTimeout(() => {
+                progressBar.style.width = '95%';
+            }, 100);
+
+            window.addEventListener('load', function () {
+                progressBar.style.transition = 'width 0.4s ease-out';
+                progressBar.style.width = '100%';
+
+                setTimeout(() => {
+                    loadingScreen.classList.add('hidden');
+                    progressBarContainer.classList.add('hidden');
+                    mainContent.style.display = 'block';
+
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                        progressBarContainer.style.display = 'none';
+                        initializeScrollLogic();
+                    }, 800);
+                }, 500);
+            });
+
+            function updateIranTime() {
+                const timeElement = document.getElementById('local-time');
+                if (!timeElement) return;
+                const options = {
+                    hour: '2-digit', minute: '2-digit', second: '2-digit',
+                    hour12: false, timeZone: 'Asia/Tehran'
+                };
+                const formatter = new Intl.DateTimeFormat('en-US', options);
+                timeElement.textContent = formatter.format(new Date());
+            }
+            updateIranTime();
+            setInterval(updateIranTime, 1000);
+
+            // --- DEFINITIVE SCROLL AND PROGRESS LOGIC ---
+            const leftColumn = document.querySelector('.left-column');
+
+            function initializeScrollLogic() {
+                if (!leftColumn || getComputedStyle(leftColumn).position !== 'sticky') {
+                    return;
+                }
+
+                const leftSocialSection = document.getElementById('left-social-section');
+                const rightContactContainer = document.getElementById('bottom-contact-container');
+                const progressFill = document.querySelector('.progress-line-fill');
+                const progressDots = document.querySelectorAll('.progress-dot');
+                const contentSections = document.querySelectorAll('.right-column .content-section');
+                const sectionStates = new Map();
+
+                positionProgressDots();
+                window.addEventListener('resize', positionProgressDots);
+                setupSectionObserver();
+                window.addEventListener('scroll', handleContactFade, { passive: true });
+                handleContactFade();
+
+                function positionProgressDots() {
+                    const rightColumn = document.querySelector('.right-column');
+                    if (!rightColumn || contentSections.length < 2) return;
+
+                    const firstSectionTop = contentSections[0].offsetTop;
+                    const lastSectionTop = contentSections[contentSections.length - 1].offsetTop;
+                    const trackLength = lastSectionTop - firstSectionTop;
+
+                    if (trackLength <= 0) return;
+
+                    contentSections.forEach((section, index) => {
+                        const dot = progressDots[index];
+                        if (!dot) return;
+
+                        const sectionTopRelative = section.offsetTop - firstSectionTop;
+                        let topPercent = (sectionTopRelative / trackLength) * 100;
+                        dot.style.top = `${Math.max(0, Math.min(100, topPercent))}%`;
+                    });
+                }
+
+                function setupSectionObserver() {
+                    const observerOptions = {
+                        rootMargin: '-40% 0px -40% 0px',
+                        threshold: 0
+                    };
+
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            sectionStates.set(entry.target.id, entry.isIntersecting);
+                        });
+
+                        let lastActiveSectionId = null;
+                        contentSections.forEach(section => {
+                            if (sectionStates.get(section.id)) {
+                                lastActiveSectionId = section.id;
+                            }
+                        });
+
+                        const activeIndex = Array.from(contentSections).findIndex(section => section.id === lastActiveSectionId);
+
+                        progressDots.forEach((dot, index) => {
+                            dot.classList.toggle('active', index <= activeIndex);
+                        });
+
+                        if (activeIndex > -1) {
+                            const activeDot = progressDots[activeIndex];
+                            progressFill.style.height = activeDot.style.top;
+                        } else {
+                            progressFill.style.height = '0%';
+                        }
+
+                    }, observerOptions);
+
+                    contentSections.forEach(section => observer.observe(section));
+                }
+
+                function handleContactFade() {
+                    if (!leftSocialSection || !rightContactContainer) return;
+                    const scrollThreshold = document.documentElement.scrollHeight - window.innerHeight - 400;
+                    const isNearBottom = window.scrollY > scrollThreshold;
+
+                    leftSocialSection.classList.toggle('fade-out', isNearBottom);
+                    rightContactContainer.classList.toggle('is-visible', isNearBottom);
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>
