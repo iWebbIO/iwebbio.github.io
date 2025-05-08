@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to MOREWEB</title>
+    <style>
+        :root {
+            --main-text: #ffffff;
+            --accent-color: #00ffff;
+            --bg-color: #0a0a0a;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: var(--bg-color);
+            color: var(--main-text);
+            font-family: 'Arial Black', sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            height: 100vh;
+            height: 100dvh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+
+        .welcome {
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            margin-bottom: min(20px, 4vh);
+            opacity: 0;
+            animation: 
+                fadeIn 0.5s ease-out forwards,
+                fadeOutWelcome 0.5s ease-out 2s forwards;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        .moreweb {
+            font-size: clamp(2.5rem, 15vw, 6rem);
+            font-weight: 900;
+            position: relative;
+            letter-spacing: min(5px, 1vw);
+            color: transparent;
+            -webkit-text-stroke: min(3px, 0.5vw) var(--main-text);
+            text-align: center;
+            white-space: nowrap;
+            animation: 
+                fillText 0.8s ease-out forwards,
+                minimizeToBottom 0.8s ease-in-out 2s forwards;
+        }
+
+        .powered-by {
+            position: fixed;
+            font-size: clamp(0.9rem, 4vw, 1.2rem);
+            opacity: 0;
+            text-align: center;
+            color: var(--accent-color);
+            font-family: 'Arial', sans-serif;
+            letter-spacing: 2px;
+            animation: fadeInPoweredLast 0.8s ease-out 3.6s forwards;
+            text-shadow: 
+                0 0 10px rgba(0,255,255,0.3),
+                0 0 20px rgba(0,255,255,0.2);
+        }
+
+        .maintenance {
+            position: absolute;
+            top: 40%;
+            width: 90%;
+            font-size: clamp(1.2rem, 6vw, 2rem);
+            opacity: 0;
+            text-align: center;
+            transform: translateY(-50%);
+            animation: fadeInMaintenance 0.8s ease-out 2.8s forwards;
+        }
+
+        .maintenance span {
+            display: block;
+            font-size: clamp(0.8rem, 4vw, 1.4rem);
+            margin-top: min(10px, 2vh);
+            color: #666;
+        }
+
+        .bolt-container {
+            position: absolute;
+            width: 120%;
+            height: 100%;
+            left: -10%;
+            top: 0;
+            overflow: hidden;
+        }
+
+        .bolt {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            animation: boltEffect 0.6s ease-out forwards;
+        }
+
+        .bolt::before,
+        .bolt::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: min(3px, 0.5vh);
+            background: var(--accent-color);
+            top: 50%;
+            transform: translateY(-50%) translateX(-100%);
+            filter: blur(3px);
+            box-shadow: 
+                0 0 10px var(--accent-color),
+                0 0 20px var(--accent-color),
+                0 0 30px var(--accent-color),
+                0 0 40px var(--accent-color);
+        }
+
+        .bolt::before {
+            animation: boltMove1 0.3s ease-out forwards;
+        }
+
+        .bolt::after {
+            animation: boltMove2 0.3s ease-out 0.15s forwards;
+            opacity: 0.7;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeOutWelcome {
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+                visibility: hidden;
+            }
+        }
+
+        @keyframes fillText {
+            0% {
+                color: transparent;
+                text-shadow: none;
+            }
+            50% {
+                color: transparent;
+                text-shadow: 
+                    0 0 10px rgba(255,255,255,0.8),
+                    0 0 20px rgba(255,255,255,0.8);
+            }
+            100% {
+                color: var(--main-text);
+                text-shadow: 
+                    0 0 10px rgba(255,255,255,0.8),
+                    0 0 20px rgba(255,255,255,0.4),
+                    0 0 30px rgba(255,255,255,0.2);
+            }
+        }
+
+        @keyframes minimizeToBottom {
+            to {
+                transform: translateY(40vh) scale(0.5);
+                opacity: 0.3;
+            }
+        }
+
+        @keyframes fadeInMaintenance {
+            from {
+                opacity: 0;
+                transform: translateY(-70%);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(-50%);
+            }
+        }
+
+        @keyframes fadeInPoweredLast {
+            from {
+                opacity: 0;
+                transform: translateY(calc(40vh + 60px));
+            }
+            to {
+                opacity: 1;
+                transform: translateY(calc(40vh + 60px));
+            }
+        }
+
+        @keyframes boltMove1 {
+            0% {
+                transform: translateY(-50%) translateX(-100%) skewX(-20deg);
+            }
+            100% {
+                transform: translateY(-50%) translateX(100%) skewX(-20deg);
+            }
+        }
+
+        @keyframes boltMove2 {
+            0% {
+                transform: translateY(-50%) translateX(-100%) skewX(20deg);
+            }
+            100% {
+                transform: translateY(-50%) translateX(100%) skewX(20deg);
+            }
+        }
+
+        @keyframes boltEffect {
+            0%, 100% {
+                opacity: 0;
+            }
+            10%, 90% {
+                opacity: 1;
+            }
+        }
+
+        /* Landscape orientation adjustments */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .moreweb {
+                font-size: clamp(2rem, 12vh, 4rem);
+            }
+
+            .maintenance {
+                font-size: clamp(1rem, 5vh, 1.5rem);
+            }
+
+            .maintenance span {
+                font-size: clamp(0.7rem, 3vh, 1rem);
+            }
+
+            .powered-by {
+                font-size: clamp(0.8rem, 3vh, 1rem);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="welcome">Welcome to</div>
+        <div class="moreweb">
+            MOREWEB
+            <div class="bolt-container">
+                <div class="bolt"></div>
+            </div>
+        </div>
+        <div class="maintenance">
+            This Website is Under Maintenance
+            <span>We'll be back soon with something amazing!</span>
+        </div>
+        <div class="powered-by">Powered by WebWiz</div>
+    </div>
+</body>
+</html>
