@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -192,39 +191,40 @@
             pointer-events: none;
         }
 
+        /* --- UPDATED GLOW STYLES FOR WIDER, SOFTER BLEND --- */
         .glow-blob {
             position: absolute;
             border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.7;
+            filter: blur(180px);
+            opacity: 0.6;
             animation: moveAndChange 20s infinite alternate;
         }
 
         .glow-blob:nth-child(1) {
-            width: 500px;
-            height: 500px;
+            width: 70vw;
+            height: 70vw;
             background-color: #4A00E0;
-            top: -10%;
-            left: -10%;
+            top: -25%;
+            left: -25%;
             animation-duration: 25s;
         }
 
         .glow-blob:nth-child(2) {
-            width: 450px;
-            height: 450px;
+            width: 65vw;
+            height: 65vw;
             background-color: #00BFFF;
-            bottom: -15%;
-            right: -5%;
+            bottom: -30%;
+            right: -20%;
             animation-duration: 20s;
             animation-delay: -10s;
         }
 
         .glow-blob:nth-child(3) {
-            width: 400px;
-            height: 400px;
+            width: 60vw;
+            height: 60vw;
             background-color: #E01E5A;
-            bottom: 20%;
-            left: 40%;
+            bottom: 5%;
+            left: 30%;
             animation-duration: 30s;
             animation-delay: -5s;
         }
@@ -271,16 +271,15 @@
             0% {
                 transform: translate(0, 0) scale(1);
             }
-
             50% {
-                transform: translate(60px, -40px) scale(1.2);
-                opacity: 0.8;
+                transform: translate(10vw, -8vh) scale(1.2);
+                opacity: 0.7;
             }
-
             100% {
-                transform: translate(-30px, 50px) scale(0.9);
+                transform: translate(-5vw, 10vh) scale(0.9);
             }
         }
+        /* --------------------------------------------- */
 
         #main-content {
             display: none;
@@ -1043,7 +1042,7 @@
                 <!-- CHANGE: New parent section wrapper for the first two content blocks -->
                 <section id="work" class="content-section">
 
-                    <!-- The old section is now a div without the .content-section class -->
+                    <!-- This old section is now a div without the .content-section class -->
                     <div id="current-status">
                         <h2 class="section-title">
                             <span class="active-dot-title"></span>
@@ -1291,6 +1290,7 @@
                 }
 
                 function setupSectionObserver() {
+                    // Adjust rootMargin to make activation happen a bit higher up the screen
                     const observerOptions = {
                         rootMargin: '-40% 0px -40% 0px',
                         threshold: 0
@@ -1311,16 +1311,22 @@
                         const activeIndex = Array.from(contentSections).findIndex(section => section.id === lastActiveSectionId);
 
                         progressDots.forEach((dot, index) => {
-                            dot.classList.toggle('active', index <= activeIndex);
+                            // Keep previous active dots filled, and set the current active dot
+                            if (activeIndex >= index) {
+                                dot.classList.add('active');
+                            } else {
+                                dot.classList.remove('active');
+                            }
                         });
 
                         if (activeIndex > -1) {
                             const activeDot = progressDots[activeIndex];
+                            // Calculate fill based on the position of the active dot
                             progressFill.style.height = activeDot.style.top;
-                        } else {
-                            progressFill.style.height = '0%';
+                        } else if (window.scrollY < contentSections[0].offsetTop - 100) {
+                             // Before the first section, reset fill
+                             progressFill.style.height = '0%';
                         }
-
                     }, observerOptions);
 
                     contentSections.forEach(section => observer.observe(section));
@@ -1328,6 +1334,7 @@
 
                 function handleContactFade() {
                     if (!leftSocialSection || !rightContactContainer) return;
+                    // Threshold to start fading social links and showing contact footer
                     const scrollThreshold = document.documentElement.scrollHeight - window.innerHeight - 400;
                     const isNearBottom = window.scrollY > scrollThreshold;
 
