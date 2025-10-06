@@ -1,10 +1,72 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
+
+    <title>moreweb's portfolio</title>
+
+    <meta name="description"
+        content="Portfolio of moreweb, a passionate Software Developer specializing in Python & Web Design. Explore my projects, skills, and experience.">
+    <meta name="keywords"
+        content="moreweb, software developer, python developer, web designer, portfolio, web development, FreezeHost, Obsidian, Discord Bot">
+    <meta name="author" content="moreweb">
+    <meta name="robots" content="index, follow">
+
+    <link rel="canonical" href="https://iwebbio.github.io/">
+
+    <link rel="icon" href="https://freezehost.pro/assets/pfp/moreweb.jpeg" type="image/webp">
+    <link rel="apple-touch-icon" href="https://freezehost.pro/assets/pfp/moreweb.jpeg">
+    <meta name="theme-color" content="#121212">
+
+    <meta property="og:type" content="profile">
+    <meta property="og:title" content="moreweb | Software Developer">
+    <meta property="og:description"
+        content="A passionate Software Developer specializing in Python & Web Design. Explore my projects, skills, and experience.">
+    <meta property="og:image" content="https://freezehost.pro/assets/pfp/moreweb.jpeg">
+    <meta property="og:url" content="https://your-live-domain.com/">
+    <meta property="og:site_name" content="moreweb's Portfolio">
+    <meta property="profile:username" content="moreweb">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="moreweb | Software Developer">
+    <meta name="twitter:description"
+        content="A passionate Software Developer specializing in Python & Web Design. Explore my projects, skills, and experience.">
+    <meta name="twitter:image" content="https://freezehost.pro/assets/pfp/moreweb.jpeg">
+    <meta name="twitter:url" content="https://your-live-domain.com/">
+    <meta name="twitter:creator" content="@iwebbio_dev">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "moreweb",
+      "jobTitle": "Software Developer",
+      "description": "Software Developer with a passion for creating intuitive, dynamic user experiences. Specializing in Python & Web Design, I love solving complex problems and turning ideas into reality. Currently exploring cloud infrastructure and AI.",
+      "image": "https://freezehost.pro/assets/pfp/moreweb.jpeg",
+      "url": "https://your-live-domain.com/",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "FreezeHost.pro",
+        "url": "https://freezehost.pro"
+      },
+      "knowsAbout": [
+        "Python", "Web Design", "Cloud Infrastructure", "Artificial Intelligence", "PHP", "HTML", "CSS", "JavaScript",
+        "Flask", "Django", "FastAPI", "Tailwind CSS", "Bootstrap", "SQL", "REST APIs"
+      ],
+      "sameAs": [
+        "https://github.com/iwebbio",
+        "https://www.linkedin.com/in/iwebbio",
+        "https://youtube.com/@iwebbio",
+        "https://t.me/iwebbio",
+        "https://instagram.com/iwebbio_dev",
+        "https://discord.com/users/moreweb",
+        "https://wa.me/15413715751"
+      ]
+    }
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,7 +102,6 @@
             overflow-x: hidden;
         }
 
-        /* === Custom Scrollbar Styles START === */
         ::-webkit-scrollbar {
             width: 12px;
         }
@@ -60,7 +121,6 @@
         ::-webkit-scrollbar-thumb:hover {
             background-color: rgba(0, 191, 255, 0.5);
         }
-        /* === Custom Scrollbar Styles END === */
 
         #top-status-bar {
             position: fixed;
@@ -191,16 +251,13 @@
             pointer-events: none;
         }
 
-        /* MODIFIED: Set initial state for the intro animation */
         .glow-blob {
             position: absolute;
             border-radius: 50%;
             filter: blur(100px);
-            opacity: 0; /* Start invisible for the intro */
-            /* The main animation is now defined on each blob individually */
+            opacity: 0;
         }
 
-        /* MODIFIED: Replaced individual animation properties with a combined, staggered one */
         .glow-blob:nth-child(1) {
             width: 500px;
             height: 500px;
@@ -272,7 +329,6 @@
             }
         }
         
-        /* ADDED: Keyframes for the new intro animation */
         @keyframes glowIntro {
             from {
                 opacity: 0;
@@ -547,7 +603,6 @@
             min-width: 0;
         }
 
-        /* === Scroll Progress Bar Styles === */
         .left-column-wrapper {
             position: relative;
             padding-left: 60px;
@@ -606,7 +661,6 @@
         .content-section {
             padding-bottom: 70px;
             min-height: 400px;
-            /* Helps ensure sections can be properly observed */
         }
 
         .section-title {
@@ -740,7 +794,6 @@
             font-size: 0.9rem;
         }
 
-        /* Contact Button Styles */
         #bottom-contact-container {
             opacity: 0;
             visibility: hidden;
@@ -1003,7 +1056,6 @@
                         <div class="progress-line">
                             <div class="progress-line-fill"></div>
                         </div>
-                        <!-- CHANGE: Dots reduced from 5 to 4 -->
                         <div class="progress-dot" data-section-id="work"></div>
                         <div class="progress-dot" data-section-id="skills"></div>
                         <div class="progress-dot" data-section-id="experience"></div>
@@ -1057,10 +1109,7 @@
 
             <div class="right-column">
 
-                <!-- CHANGE: New parent section wrapper for the first two content blocks -->
                 <section id="work" class="content-section">
-
-                    <!-- The old section is now a div without the .content-section class -->
                     <div id="current-status">
                         <h2 class="section-title">
                             <span class="active-dot-title"></span>
@@ -1075,7 +1124,6 @@
                         </div>
                     </div>
 
-                    <!-- This old section is also now a div without the .content-section class -->
                     <div id="projects" style="margin-top: 70px;">
                         <h2 class="section-title">Featured Projects</h2>
                         <div class="project-grid">
@@ -1124,7 +1172,7 @@
                         </div>
                     </div>
 
-                </section> <!-- End of the new #work wrapper -->
+                </section>
 
                 <section id="skills" class="content-section">
                     <h2 class="section-title">Technical Toolkit</h2>
@@ -1226,7 +1274,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // --- LOADER AND CLOCK LOGIC ---
             const loadingScreen = document.getElementById('loading-screen');
             const mainContent = document.getElementById('main-content');
             const progressBarContainer = document.getElementById('progress-bar-container');
@@ -1266,10 +1313,9 @@
             updateIranTime();
             setInterval(updateIranTime, 1000);
 
-            // --- DEFINITIVE SCROLL AND PROGRESS LOGIC ---
-            const leftColumn = document.querySelector('.left-column');
-
             function initializeScrollLogic() {
+                const leftColumn = document.querySelector('.left-column');
+
                 if (!leftColumn || getComputedStyle(leftColumn).position !== 'sticky') {
                     return;
                 }
